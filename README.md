@@ -103,4 +103,149 @@ public class Topic2 {
     }
 }
 ```
+### 3.从位到头打印链表
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-09-30 17:31
+ * 输入一个链表，按链表从尾到头的顺序返回一个ArrayList。
+ *
+ * 个人解题思路：
+ * Ⅰ：首先题目是需要将链表倒序打印且封装为一个ArrayList返回，
+ * 我们就会想到在ArrayList中有一个void add(int index, E element)方法
+ * 此方法会将我们插入的值倒序存储，因此我们可以对原始链表进行遍历，每遍历一个值将其add即可。
+ * Ⅱ：题目要求是倒序打印，我们不难想到一个数据结构（栈），因为我们可以使用栈来完成
+ * 先遍历原始链表，将其每个值进行入栈操作
+ * 然后对栈进行pop即可
+ **/
+public class Topic3 {
+    public static void main(String[] args) {
+        LinkedList linkedList = new LinkedList();
+        LinkedList init = linkedList.Init();
+        linkedList.show(init);
 
+        ArrayList<Integer> arrayList = printListFromTailToHead2(init);
+        System.out.println(arrayList.toString());
+    }
+
+    /**
+     * 利用栈
+     * @param listNode
+     * @return
+     */
+    public static ArrayList<Integer> printListFromTailToHead2(LinkedList listNode) {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+      //  LinkedList temp =  listNode.next;
+        LinkedList temp =  listNode;
+        Stack<Integer> stack = new Stack();
+        while (temp!=null){
+            stack.push(temp.value);
+            temp = temp.next;
+        }
+        while (stack.size()>0){
+            arrayList.add(stack.pop());
+        }
+        return  arrayList;
+    }
+
+    /**
+     * 倒序打印链表
+     * @param listNode
+     * @return
+     */
+    public static ArrayList<Integer> printListFromTailToHead(LinkedList listNode) {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        if (listNode==null||listNode.next==null){
+            return arrayList;
+        }
+        //  LinkedList temp =  listNode.next;
+        LinkedList temp = listNode;
+        while (temp!=null){
+            arrayList.add(0, temp.value);
+            temp = temp.next;
+        }
+        return  arrayList ;
+    }
+}
+
+/**
+ * 节点
+ */
+class LinkedList {
+     int value;
+     LinkedList next;
+
+    public LinkedList(int value) {
+        this.value = value;
+    }
+
+    public LinkedList() {
+
+    }
+
+//    public int getValue() {
+//        return value;
+//    }
+
+    /**
+     * 显示链表
+     * @return
+     */
+    public void show(LinkedList node) {
+        if (node.next == null) {
+            System.out.println("链表为空");
+            return;
+        }
+        LinkedList temp = node.next;
+        while (temp != null) {
+            System.out.println(temp);
+            temp = temp.next;
+        }
+    }
+
+    /**
+     * 初始化链表
+     *
+     * @return
+     */
+    public LinkedList Init() {
+        //头节点
+        LinkedList head = new LinkedList();
+        LinkedList temp = head;
+        while (true) {
+            Scanner sc = new Scanner(System.in);
+            int val = sc.nextInt();
+            //输入0退出输入循环
+            if (0 == val) {
+                break;
+            }
+            LinkedList linkedList = new LinkedList(val);
+            temp.next = linkedList;
+            temp = linkedList;
+        }
+        return head;
+    }
+
+//    public void setValue(int value) {
+//        this.value = value;
+//    }
+//
+//    public LinkedList getNext() {
+//        return next;
+//    }
+//
+//    public void setNext(LinkedList next) {
+//        this.next = next;
+//    }
+
+    @Override
+    public String toString() {
+        return "LinkedList{" +
+                "value=" + value +
+                ", next=" + next +
+                '}';
+    }
+}
+```
