@@ -9,6 +9,7 @@
          * [4.重建二叉树](#4重建二叉树)
          * [5.用两个栈实现队列](#5用两个栈实现队列)
          * [6.旋转数组的最小数字](#6旋转数组的最小数字)
+         * [7.斐波那契数列](#7斐波那契数列)
 ### 1.二位数组中的查找
 ```java
 /**
@@ -487,6 +488,65 @@ public class Topic6 {
             }
         }
         return temp ;
+    }
+}
+
+```
+### 7.斐波那契数列
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-03 15:09
+ * 大家都知道斐波那契数列，现在要求输入一个整数n，
+ * 请你输出斐波那契数列的第n项（从0开始，第0项为0，第1项是1）。
+ *
+ * 解题思路:
+ * 斐波那契数列即：1 1 2 3 5 ....
+ * 我们可以发现前两个数相加即是第三个数的值
+ * 因此我们可以递归和非递归的方法实现
+ **/
+public class Topic7 {
+    public static void main(String[] args) {
+        System.out.println(Fibonacci2(4));
+    }
+    /**
+     * 递归实现
+     * @param n
+     * @return
+     */
+    public static int Fibonacci2(int n) {
+        if (n<=2 && n>0){
+            return 1;
+        }
+        if (n<=0){
+            return 0;
+        }
+        return Fibonacci2(n-2)+Fibonacci2(n-1);
+    }
+
+    /**
+     * 非递归实现
+     * @param n
+     * @return
+     */
+    public static int Fibonacci(int n) {
+        if (n<=2 && n>0){
+            return 1;
+        }
+        if (n<=0){
+            return 0;
+        }
+        int temp = 0;
+        int a = 1,b = 1;
+        while (n>2){
+            temp = a+b;
+            a = b;
+            b = temp;
+            n--;
+        }
+        return temp;
     }
 }
 
