@@ -249,3 +249,171 @@ class LinkedList {
     }
 }
 ```
+### 4.重建二叉树
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-02 16:14
+ * 输入某二叉树的前序遍历和中序遍历的结果，
+ * 请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+ * 例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，
+ * 则重建二叉树并返回。
+ * 
+ * 个人解题思路：
+ * 题目要求重建二叉树，给了前序和中序遍历的结果，
+ * 我们很容易根据前序得到此二叉树的根节点，根据中序可以对二叉树进行左右子树的划分。
+ * 在二叉树中，我们一般都是使用递归的方式完成二叉树的各种操作，因此，此题我们只需要
+ * 找到递归的条件即可。比如先找到前序左子树和右子树的数组，然后找到中序左子树和右子树的数组，
+ * 进行条件递归即可。
+ * 方法一是将没一步进行细化，可以更好的给大家提供一个思路，
+ * 方法二则是对方法一某些步骤的简化。
+ **/
+public class Topic4 {
+    public static void main(String[] args) {
+        int[]pre={1,2,4,7,3,5,6,8};
+        int[]in={4,7,2,1,5,3,8,6};
+        TreeNode treeNode = reConstructBinaryTree(pre, in);
+        System.out.println(treeNode);
+        TreeNode treeNode2 = reConstructBinaryTree2(pre, in);
+        System.out.println(treeNode2);
+    }
+
+    /**
+     * 方法二：使用Arrays工具类对方法一进行简化
+     * @param pre
+     * @param in
+     * @return
+     */
+    public static TreeNode reConstructBinaryTree2(int [] pre,int [] in) {
+        if (pre.length==0 || in.length==0){
+            return null;
+        }
+        //找到二叉树的根
+        TreeNode root = new TreeNode(pre[0]);
+        for (int i = 0; i < in.length ; i++) {
+            //找到划分左右递归子树的地方
+            //copyOfRange 左闭右开
+            if (pre[0]==in[i]){
+                root.left=reConstructBinaryTree(Arrays.copyOfRange(pre, 1, i+1),Arrays.copyOfRange(in, 0, i));
+                root.right=reConstructBinaryTree(Arrays.copyOfRange(pre, i+1, pre.length),Arrays.copyOfRange(in, i+1, in.length));
+            }
+        }
+        return root;
+    }
+
+    /**
+     * 方法一
+     * @param pre
+     * @param in
+     * @return
+     */
+    public static TreeNode reConstructBinaryTree(int [] pre,int [] in) {
+        if (pre.length!=0 && in.length!=0){
+            //先根据前序遍历找到根节点
+            TreeNode root = new TreeNode(pre[0]);
+            //根据中序遍历划分左右子树
+            int i=0;
+            while (pre[0]!= in[i]){
+                i++;
+            }
+            //根据i定义中序遍历数组
+            int[]inLeft = new int[i];
+            int[]inRight = new int[in.length-i-1];
+            //给中序遍历左子树赋值
+            for (int j = 0; j < inLeft.length ; j++) {
+                inLeft[j] = in[j];
+            }
+            //给中序遍历右子树赋值
+            for (int j = 0; j < inRight.length ; j++) {
+                inRight[j] = in[inLeft.length+j+1];
+            }
+            //根据i定义前序遍历数组
+            int[]preLeft= new int[i];
+            int[]preRight = new int[in.length-i-1];
+            //给前序遍历左子树赋值
+            for (int j = 0; j < preLeft.length ; j++) {
+                preLeft[j] = pre[j+1];
+            }
+            //给前序遍历右子树赋值
+            for (int j = 0; j < preRight.length ; j++) {
+                preRight[j] = pre[j+preLeft.length+1];
+            }
+            //左右递归
+            root.left = reConstructBinaryTree(preLeft,inLeft);
+            root.right = reConstructBinaryTree(preRight,inRight);
+            return root;
+
+        }else {
+            return null;
+        }
+
+    }
+}
+
+class TreeNode {
+     int val;
+     TreeNode left;
+     TreeNode right;
+     TreeNode(int x) { val = x; }
+
+    @Override
+    public String toString() {
+        return "TreeNode{" +
+                "val=" + val +
+                ", left=" + left +
+                ", right=" + right +
+                '}';
+    }
+}
+```
+### 5.用两个栈实现队列
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-02 17:09
+ * 用两个栈来实现一个队列，完成队列的Push和Pop操作。
+ * 队列中的元素为int类型。
+ *
+ * 个人解题思路：
+ * 我们知道栈是先进后出的数据结构，而队列是先进先出的数据结构
+ * 因此，我们可以利用一个栈来push原始数据然后再将第一个栈的数据在出栈时候再让其入第二栈
+ * 然后对第二栈进行pop即可实现队列。
+ * 比如原始数据：1 2 3 4
+ * 1 2 3 4：入stack1后出stack1：4 3 2 1
+ * 4 3 2 1：入stack2后出stack2：1 2 3 4
+ * 即相当于队列操作：入队列1 2 3 4 出队列1 2 3 4
+ **/
+public class Topic5 {
+    public static void main(String[] args) {
+        StackToQueue stackToQueue = new StackToQueue();
+        stackToQueue.push(1);
+        stackToQueue.push(2);
+        int pop = stackToQueue.pop();
+        System.out.println(pop);
+        int pop2 = stackToQueue.pop();
+        System.out.println(pop2);
+    }
+}
+class StackToQueue{
+    Stack<Integer> stack1 = new Stack<>();
+    Stack<Integer> stack2 = new Stack<>();
+    public void push(int node) {
+        stack1.push(node);
+    }
+    public int pop() {
+        //先判断stack2是否为空
+        if (stack2.isEmpty()){
+            //stack2为空，当stack1不为空一直push
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
+        }
+        //stack2不为空先将里面的数据弹栈 
+        return  stack2.pop();
+    }
+}
+```
