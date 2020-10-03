@@ -417,3 +417,69 @@ class StackToQueue{
     }
 }
 ```
+### 6.旋转数组的最小数字
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-03 09:36
+ * 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
+ * 输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。
+ * 例如数组[3,4,5,1,2]为[1,2,3,4,5]的一个旋转，该数组的最小值为1。
+ * NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。
+ * 
+ *个人解题思路：
+ * 第一种方式:我们可以使用方法一的思想，逐个遍历数组找出最小值
+ * 第二种：利用二分查找法的思想
+ **/
+public class Topic6 {
+    public static void main(String[] args) {
+        int[]arr = {3,4,5,1,2};
+        System.out.println(minNumberInRotateArray(arr));
+        System.out.println(minNumberInRotateArray2(arr));
+
+    }
+
+    /**
+     * 二分查找
+     * @param array
+     * @return
+     */
+    public static int minNumberInRotateArray2(int [] array) {
+        int left = 0;
+        int right = array.length-1;
+        while (left<=right){
+            int mid = (left+right)/2;
+            //小的值在中间值的左边
+            if (array[mid]<array[right]){
+                right = mid;
+            } 
+            //小的值在中间值的右边
+            else if(array[mid]>array[right]){
+                left = mid+1;
+            }
+            else {
+                right--;
+            }
+        }
+        return array[left];
+    }
+
+    /**
+     * 暴力法
+     * @param array
+     * @return
+     */
+    public static int minNumberInRotateArray(int [] array) {
+        int temp=array[0];
+        for (int i = 1; i < array.length ; i++) {
+            if (temp>array[i]){
+               temp = array[i];
+            }
+        }
+        return temp ;
+    }
+}
+
+```
