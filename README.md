@@ -10,6 +10,10 @@
          * [5.用两个栈实现队列](#5用两个栈实现队列)
          * [6.旋转数组的最小数字](#6旋转数组的最小数字)
          * [7.斐波那契数列](#7斐波那契数列)
+         * [8.跳台阶](#8跳台阶)
+         * [9.变态跳台阶](#9变态跳台阶)
+         * [10.矩形覆盖](#10矩形覆盖)
+         * [11.二进制中1的个数](#11二进制中1的个数)
 ### 1.二位数组中的查找
 ```java
 /**
@@ -547,6 +551,164 @@ public class Topic7 {
             n--;
         }
         return temp;
+    }
+}
+
+```
+### 8.跳台阶
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-03 15:29
+ * 一只青蛙一次可以跳上1级台阶，也可以跳上2级。
+ * 求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。
+ *
+ * 个人解题思路：
+ *  台阶数       跳跃方式
+ *    1          1
+ *    2          11  2
+ *    3          111  12 21
+ *    4          1111 112 121 211 22
+ *    ....        ....
+ *    可以发现台阶数和跳跃方式之间存在函数关系
+ *    x<=1---------->F(x)=1
+ *    (x>2)--------->F（x）=F(x-2)+F(x-1)
+ *
+ **/
+public class Topic8 {
+    public static void main(String[] args) {
+        System.out.println(JumpFloor(2));
+    }
+
+    /**
+     * 使用递归
+     * @param target
+     * @return
+     */
+    public static int JumpFloor(int target) {
+        if (target<=1){
+            return 1;
+        }
+        return JumpFloor(target-2)+JumpFloor(target-1);
+    }
+}
+
+```
+### 9.变态跳台阶
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-03 19:57
+ *
+ * 一只青蛙一次可以跳上1级台阶，
+ * 也可以跳上2级……它也可以跳上n级。
+ * 求该青蛙跳上一个n级的台阶总共有多少种跳法。
+ * 个人解题思路：
+ *  台阶数       跳跃方式
+ *    1          1
+ *    2          11  2
+ *    3          111  12 21  3
+ *    4          1111 112 121 211 22 13 31 4
+ *    ....        ....
+ *    可以发现台阶数和跳跃方式之间存在函数关系
+ *    x<=1---------->F(x)=1
+ *    (x>2)--------->F（x）=2*F(x-1)
+ *
+ **/
+public class Topic9 {
+    public static void main(String[] args) {
+        System.out.println(JumpFloorII(4));
+    }
+    /**
+     * 递归
+     * @param target
+     * @return
+     */
+    public static int JumpFloorII(int target) {
+        if (target<=1){
+            return 1;
+        }
+        return 2*JumpFloorII(target-1);
+    }
+}
+
+```
+### 10.矩形覆盖
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-03 20:01
+ * 我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形
+ * 请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？
+ *
+ * 个人解题思路：
+ *  其实就是类似于一个斐波那契数列
+ **/
+public class Topic10 {
+    public static void main(String[] args) {
+        System.out.println(RectCover(5));
+    }
+
+    /**
+     * 递归
+     * @param target
+     * @return
+     */
+    public static int RectCover(int target) {
+        if (target==1){
+            return 1;
+        }
+        if(target<1){
+            return 0;
+        }
+        if(target==2){
+            return 2;
+        }
+        return RectCover(target-2)+RectCover(target-1);
+    }
+}
+```
+### 11.二进制中1的个数
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-03 20:14
+ * 输入一个整数，输出该数32位二进制表示中1的个数。其中负数用补码表示。
+ *
+ *个人解题思路：
+ * 首先我们会想到用这个数%2 然后统计 但是这样的算法可以满足大于0的数，
+ * 对于负数显然无法满足。所以该算法被舍弃
+ * 其次我们会发现在计算机中，一个数&这个数-1 即可抵消一位1
+ * 例如：
+ * 7----------->0111 要统计其中1的个数，显然有三个
+ * 我们让7&6
+ * 6----------->0110
+ *    0111
+ *   &0110
+ *  --------
+ *    0110
+ * 我们会发现此时抵消了末位上的1 .根据这个规律 我们只需要判断当
+ *  n>0 且每次让 n = n & n-1 然后统计次数即可。
+ **/
+public class Topic11 {
+    public static void main(String[] args) {
+        System.out.println(NumberOf1(7));
+    }
+    public static int NumberOf1(int n) {
+        int count = 0;
+        while (n>0){
+            n = n & n-1;
+            count++;
+        }
+        return count;
     }
 }
 
