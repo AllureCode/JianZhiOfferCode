@@ -14,6 +14,10 @@
          * [9.变态跳台阶](#9变态跳台阶)
          * [10.矩形覆盖](#10矩形覆盖)
          * [11.二进制中1的个数](#11二进制中1的个数)
+         * [12.数值的整数次方](#12数值的整数次方)
+         * [13.调整数组序列使奇数位于偶数前面](#13调整数组序列使奇数位于偶数前面)
+         * [14.链表中倒数第k个节点](#14链表中倒数第k个节点)
+         * [15.反转链表](#15反转链表)
 ### 1.二位数组中的查找
 ```java
 /**
@@ -712,4 +716,242 @@ public class Topic11 {
     }
 }
 
+```
+### 12.数值的整数次方
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-05 17:06
+ *
+ * 给定一个double类型的浮点数base和int类型的整数exponent。
+ * 求base的exponent次方。
+ * 保证base和exponent不同时为0
+ *
+ * 个人解题思路：
+ *  首先需要考虑base情况
+ *  当base>0  base的exponent次方就是exponent个base相乘的结果
+ *  当base=0  base的exponent次方就是0
+ *  当base<0  base的exponent次方就是exponent个base相乘分之一的结果
+ *  其次考虑exponent情况
+ *  当exponent>0 base的exponent次方就是exponent个base相乘的结果
+ *  当exponent=0 base的exponent次方就是1
+ *  当exponent<0 base的exponent次方就是exponent个base相乘的结果
+ *  最后考虑base和exponent同时为0 返回-1即可
+ *  其实我们只需要考虑exponent的情况即可不需要考虑base>0&&base<0的情况；
+ *  因为这两种情况在exponent情况中已经被考虑到。
+ **/
+public class Topic12 {
+    public static void main(String[] args) {
+        System.out.println(Power(-2.0, -3));
+    }
+    public static double Power(double base, int exponent) {
+        if (base==0 && exponent==0){
+            return -1;
+        }
+        if (exponent==0){
+            return 1.0D;
+        }
+        if (base==0){
+            return 0.0D;
+        }
+        double result = 1.0D;
+        if (exponent>0 ){
+            while (exponent>0){
+                result*=base;
+                exponent--;
+            }
+            return result;
+        }else {
+            exponent=(-1)*exponent;
+            while (exponent>0){
+                result*=base;
+                exponent--;
+            }
+            return 1.0/result;
+        }
+    }
+}
+```
+### 13.调整数组序列使奇数位于偶数前面
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-05 19:01
+ * 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，
+ * 使得所有的奇数位于数组的前半部分，
+ * 所有的偶数位于数组的后半部分，并保证奇数和奇数，
+ * 偶数和偶数之间的相对位置不变。
+ *
+ * 个人解题思路：
+ *  定义一个跟原始数组大小一样的数组用来存放新数组
+ *  遍历数组看是奇数还是偶数，然后放在对应的数组中
+ *  最后覆盖原始数组即可
+ **/
+public class Topic13 {
+    public static void main(String[] args) {
+        int[] arr ={1,2,3,4,5,6,7};
+        reOrderArray(arr);
+    }
+    public static void reOrderArray(int [] array) {
+        int []arr = new int[array.length];
+        int j = 0,k=0;
+        /**
+         * 判断数组中的奇偶放入对应的数组
+         */
+        for (int i = 0; i < array.length ; i++) {
+            if (array[i]%2!=0){
+                array[j] = array[i];
+                j++;
+            }else {
+                arr[k] = array[i];
+                k++;
+            }
+        }
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i]==0)break;
+            array[j] = arr[i];
+            j++;
+        }
+        System.out.println(Arrays.toString(array));
+    }
+}
+
+```
+### 14.链表中倒数第k个节点
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-06 19:47
+ *
+ * 输入一个链表，输出该链表中倒数第k个结点。
+ *
+ * 个人解题思路：
+ * 可以先遍历链表得到的链表的总长度length
+ * 然后遍历到链表的length-k位置返回
+ * 得到的值即是满足要求的值
+ * 假如链表为：1--->2---->3--->4---->5---->null   k：2
+ * 返回的值应该为4 因为倒数第2个值为4
+ *  我们先遍历链表的长度为5 然后遍历到5-2即3的位置返回
+ *  即可得到4
+ *
+ **/
+public class Topic14 {
+    public static void main(String[] args) {
+        ListNode listNode = new ListNode().initList();
+        listNode.show(listNode);
+        System.out.println(FindKthToTail(listNode, 7));
+    }
+
+    /**
+     * 剑指Offer提交代码： 因为剑指中头节点包含有效元素
+     * 所以遍历应该算上头节点
+     * @param head
+     * @param k
+     * @return
+     */
+    public static ListNode FindKtToTail2(ListNode head,int k){
+        if (head==null || head.next==null){
+            return null;
+        }
+        ListNode temp = head;
+        int length=0;
+        while (temp!=null){
+            length++;
+            temp = temp.next;
+        }
+        if (k>length){
+            return null;
+        }
+        //从新指向头节点
+        temp = head;
+        for (int i = 0; i < length-k ; i++) {
+            temp = temp.next;
+        }
+        return temp;
+    }
+
+    public static ListNode FindKthToTail(ListNode head,int k) {
+        if (head.next==null){
+            return null;
+        }
+        ListNode temp = head.next;
+        int length=0;
+        while (temp!=null){
+            length++;
+            temp = temp.next;
+        }
+        //判断是否超出链表长度
+        if (k>length){
+            return null;
+        }
+        //从新指向头节点
+        temp = head.next;
+        for (int i = 0; i < length-k ; i++) {
+            temp = temp.next;
+        }
+        return temp;
+    }
+}
+
+/**
+ * 链表节点
+ */
+class ListNode{
+    int value;
+    ListNode next;
+
+    public ListNode() {
+    }
+    public ListNode(int value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "ListNode{" +
+                "value=" + value +
+                ", next=" + next +
+                '}';
+    }
+
+    /**
+     * 初始化链表
+     */
+    public ListNode initList(){
+        ListNode head = new ListNode();
+        ListNode temp = head;
+        while (true){
+            Scanner scanner = new Scanner(System.in);
+            int i = scanner.nextInt();
+            if (i==0){
+                break;
+            }
+            ListNode listNode = new ListNode(i);
+            temp.next = listNode;
+            temp = listNode;
+        }
+        return head;
+    }
+    /**
+     * 显示链表
+     * @return
+     */
+    public void show(ListNode node) {
+        if (node.next == null) {
+            System.out.println("链表为空");
+            return;
+        }
+        ListNode temp = node.next;
+        while (temp != null) {
+            System.out.println(temp);
+            temp = temp.next;
+        }
+    }
+}
 ```
