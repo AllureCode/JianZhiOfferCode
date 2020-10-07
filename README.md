@@ -18,6 +18,7 @@
          * [13.调整数组序列使奇数位于偶数前面](#13调整数组序列使奇数位于偶数前面)
          * [14.链表中倒数第k个节点](#14链表中倒数第k个节点)
          * [15.反转链表](#15反转链表)
+         * [16.合并两个有序链表](#16合并两个有序链表)
 ### 1.二位数组中的查找
 ```java
 /**
@@ -989,4 +990,53 @@ public class Topic15 {
         return newListNode;
     }
 }
+```
+### 16.合并两个有序链表
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-07 19:04
+ *
+ * 输入两个单调递增的链表，输出两个链表合成后的链表，
+ * 当然我们需要合成后的链表满足单调不减规则。
+ *
+ * 个人解题思路；
+ *  我们可以判断两个链表的第一个节点大小，谁小就放前面
+ *  然后再判断当前链表的节点大小和第二个链表的下一个节点大小
+ *  谁小就把谁放前面 递归执行即可
+ *  比如：
+ *  链表一：1 2 3 4     链表二：6 7 8 9
+ *  第一次:判断链表一的第一个元素1和链表二的第一个元素6的大小显然1<6
+ *  所以1为第一个节点
+ *  第二次：判断链表一的第二个元素2和链表二的第一个元素6的大小 显然2<6
+ *  所以2为第二个节点
+ *  以此递归即可
+ **/
+public class Topic16 {
+    public static void main(String[] args) {
+        ListNode listNode1 = new ListNode().initList();
+        ListNode listNode2 = new ListNode().initList();
+        System.out.println(Merge(listNode1, listNode2));
+    }
+    public static ListNode Merge(ListNode list1,ListNode list2) {
+        if (list1==null){
+            return list2;
+        }
+        if (list2==null){
+            return list1;
+        }
+        //链表一的值小于链表二
+        if (list1.value<=list2.value){
+            //开始递归
+            list1.next = Merge(list1.next, list2);
+            return list1;
+        }else {
+            list2.next = Merge(list1, list2.next);
+            return list2;
+        }
+    }
+}
+
 ```
