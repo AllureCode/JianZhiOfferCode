@@ -955,3 +955,38 @@ class ListNode{
     }
 }
 ```
+### 15.反转链表
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-07 14:01
+ * 输入一个链表，反转链表后，输出新链表的表头。
+ *
+ *个人解题思路：
+ * 定义一个新链表，然后从头到尾遍历old链表，每遍历一个将其取出，放在新链表的最前端
+ **/
+public class Topic15 {
+    public static void main(String[] args) {
+        ListNode listNode = new ListNode().initList();
+        listNode.show(listNode);
+        System.out.println(ReverseList(listNode));
+    }
+    public static ListNode ReverseList(ListNode head) {
+        if(head==null || head.next==null){
+            return head;
+        }
+        ListNode newListNode = null;
+        ListNode nextListNode = null;
+        ListNode temp = head;
+        while(temp!=null){
+            nextListNode = temp.next;
+            temp.next = newListNode;
+            newListNode = temp;
+            temp = nextListNode;
+        }
+        return newListNode;
+    }
+}
+```
