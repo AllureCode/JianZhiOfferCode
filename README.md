@@ -19,6 +19,8 @@
          * [14.链表中倒数第k个节点](#14链表中倒数第k个节点)
          * [15.反转链表](#15反转链表)
          * [16.合并两个有序链表](#16合并两个有序链表)
+         * [17.树的子结构](#17树的子结构)
+
 ### 1.二位数组中的查找
 ```java
 /**
@@ -1039,4 +1041,68 @@ public class Topic16 {
     }
 }
 
+```
+### 17.树的子结构
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-08 16:
+ * 输入两棵二叉树A，B，判断B是不是A的子结构。
+ * （ps：我们约定空树不是任意一个树的子结构）
+ * <p>
+ * 解题思路：
+ * 1.找到A中和B的根节点相同的节点，然后进行判断是否相同。
+ * 2.如果不同再拿A的左子树和B进行比较。
+ * 3.如果仍不同再拿A的右子树与B进行比较。
+ * 4.如果仍未找到，则A中不包含B。
+ * 判断两个根节点相同的两个树是否包含：
+ * 1.先判断B,如果B为空说明包含。
+ * 2.再判断A，如果A为空就说明不包含。
+ * 3.如果A的值与B的值相同，然后继续进行此判断。
+ **/
+public class Topic17 {
+    /**
+     * 遍历大树判断
+     * @param root1
+     * @param root2
+     * @return
+     */
+    public static boolean HasSubtree(TreeNode root1, TreeNode root2) {
+        if (root1 == null || root2 == null) {
+            return false;
+        }
+        //根节点相同
+        if (root1.val == root2.val) {
+            //向下继续遍历小树
+            if (isContain(root1, root2)) {
+                return true;
+            }
+        }
+        //根节点不相同，遍历左右子树看是否有相同的
+        return HasSubtree(root1.left, root2) || HasSubtree(root1.right, root2);
+    }
+    /**
+     * 遍历小树判断
+     *
+     * @param root1
+     * @param root2
+     * @return
+     */
+    public static boolean isContain(TreeNode root1, TreeNode root2) {
+        if (root2 == null) {
+            return true;
+        }
+        if (root1 == null) {
+            return false;
+        }
+        //遍历小树根节点相同
+        if (root1.val == root2.val) {
+            //遍历左右孩子
+            return isContain(root1.left, root2.left) && isContain(root1.right, root2.right);
+        }
+        return false;
+    }
+}
 ```
