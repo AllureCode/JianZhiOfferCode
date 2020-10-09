@@ -21,6 +21,7 @@
          * [16.合并两个有序链表](#16合并两个有序链表)
          * [17.树的子结构](#17树的子结构)
          * [18.二叉树的镜像](#18二叉树的镜像)
+         * [19.顺时针打印矩阵](#19顺时针打印矩阵)
 ### 1.二位数组中的查找
 ```java
 /**
@@ -1141,4 +1142,59 @@ public class Topic18 {
         }
     }
 }
+```
+### 19.顺时针打印矩阵
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-09 19:16
+ * 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，
+ * 例如，如果输入如下4 X 4矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+ * 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
+ *
+ * 个人解题思路：
+ *   1  2  3  4
+ *   5  6  7  8
+ *   9  10 11 12
+ *   13 14 15 16
+ *  我们可以按照一种魔方的思路 每次打印第一行数据后将数组逆时针旋转90°然后再打印第一行
+ *  依次重复即可
+ *
+ **/
+public class Topic19 {
+    public static void main(String[] args) {
+    int[][]arr = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}};
+        System.out.println(printMatrix(arr));
+    }
+    public static ArrayList<Integer> printMatrix(int [][] matrix) {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        int row = matrix.length;
+        while (row > 0){
+            for (int i = 0; i < matrix[0].length ; i++) {
+                arrayList.add(matrix[0][i]);
+            }
+            matrix = reverseArray(matrix);
+            row = matrix.length;
+            if (row==1){
+                for (int i = 0; i < matrix[0].length ; i++) {
+                    arrayList.add(matrix[0][i]);
+                }
+                break;
+            }
+        }
+        return  arrayList;
+    }
+    public static int[][] reverseArray(int[][]arr){
+        int[][]newArr = new int[arr[0].length][arr.length-1];
+        for (int i = 0; i < newArr.length ; i++) {
+            for (int j = 0; j < newArr[0].length ; j++) {
+                newArr[i][j] = arr[j+1][newArr.length-1-i];
+            }
+        }
+        return newArr;
+    }
+}
+
 ```
