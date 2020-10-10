@@ -22,6 +22,7 @@
          * [17.树的子结构](#17树的子结构)
          * [18.二叉树的镜像](#18二叉树的镜像)
          * [19.顺时针打印矩阵](#19顺时针打印矩阵)
+         * [20.包含min函数的栈](#20包含min函数的栈)
 ### 1.二位数组中的查找
 ```java
 /**
@@ -1197,4 +1198,72 @@ public class Topic19 {
     }
 }
 
+```
+### 20.包含min函数的栈
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-10 09:
+ *
+ * 定义栈的数据结构，
+ * 请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
+ *
+ * 个人解题思路：
+ * 对于push操作
+ * 每次压入的数据newNum都push进数据栈中，然后判断最小栈是否为空，如果为空那也把newNum同步压入
+ * 最小栈中如果不为空，就先比较newNum和最小栈中栈顶元素的大小，如果newNum较大，那就不压入最小栈里，否则
+ * 就同步压入最小栈里
+ *
+ **/
+public class Topic20 {
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        solution.push(3);
+        solution.push(4);
+        solution.push(5);
+        solution.push(1);
+        solution.push(2);
+        solution.push(1);
+        System.out.println(solution.min());
+        System.out.println(solution.minData);
+        System.out.println(solution.data);
+    }
+}
+class Solution {
+    //数据栈
+    Stack<Integer> data = new Stack();
+    //最小值栈
+    Stack<Integer> minData = new Stack();
+
+    public void push(int node) {
+        data.push(node);
+        if (minData.isEmpty()){
+            //最小栈为空则push
+            minData.push(node);
+        }else {
+            //取出最小栈顶的最小值与node比较
+            int min = minData.peek();
+            if (node <= min) {
+                minData.push(node);
+            }else {
+                minData.push(min);
+            }
+        }
+    }
+
+    public void pop() {
+        data.pop();
+        minData.pop();
+    }
+
+    public int top() {
+        return data.pop();
+    }
+
+    public int min() {
+        return minData.peek();
+    }
+}
 ```
