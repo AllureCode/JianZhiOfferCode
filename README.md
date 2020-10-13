@@ -23,6 +23,7 @@
          * [18.二叉树的镜像](#18二叉树的镜像)
          * [19.顺时针打印矩阵](#19顺时针打印矩阵)
          * [20.包含min函数的栈](#20包含min函数的栈)
+         * [21.栈的压入弹出序列](#21栈的压入弹出序列)
 ### 1.二位数组中的查找
 ```java
 /**
@@ -1266,4 +1267,80 @@ class Solution {
         return minData.peek();
     }
 }
+```
+### 21.栈的压入弹出序列
+```java
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-13 08:30
+ *
+ *
+ * 输入两个整数序列，第一个序列表示栈的压入顺序，
+ * 请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。
+ * 例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，
+ * 但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）
+ **/
+public class Topic21 {
+    public static void main(String[] args) {
+        int []arr = new int[]{1,2,3,4,5};
+        int []arr2 = new int[]{4,3,5,1,2};
+        System.out.println(IsPopOrder(arr, arr2));
+    }
+    public static boolean IsPopOrder(int [] pushA,int [] popA) {
+        if (pushA.length==0 || popA.length==0){
+            return false;
+        }
+        int index = 0;
+        Stack<Integer> stack = new Stack<>();
+        //将pushA中的元素依次入栈 如果遇到栈顶元素和popA数组中的元素一样时，则出栈
+        for (int i = 0; i < pushA.length; i++) {
+            stack.push(pushA[i]);
+            //判断栈是否为空 以及栈顶元素是否和popA中的元素相等
+            while (!stack.isEmpty() && (stack.peek()== popA[index])){
+                stack.pop();
+                index++;
+            }
+        }
+        return stack.isEmpty();
+    }
+}
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-13 08:30
+ *
+ *
+ * 输入两个整数序列，第一个序列表示栈的压入顺序，
+ * 请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。
+ * 例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，
+ * 但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）
+ **/
+public class Topic21 {
+    public static void main(String[] args) {
+        int []arr = new int[]{1,2,3,4,5};
+        int []arr2 = new int[]{4,3,5,1,2};
+        System.out.println(IsPopOrder(arr, arr2));
+    }
+    public static boolean IsPopOrder(int [] pushA,int [] popA) {
+        if (pushA.length==0 || popA.length==0){
+            return false;
+        }
+        int index = 0;
+        Stack<Integer> stack = new Stack<>();
+        //将pushA中的元素依次入栈 如果遇到栈顶元素和popA数组中的元素一样时，则出栈
+        for (int i = 0; i < pushA.length; i++) {
+            stack.push(pushA[i]);
+            //判断栈是否为空 以及栈顶元素是否和popA中的元素相等
+            while (!stack.isEmpty() && (stack.peek()== popA[index])){
+                stack.pop();
+                index++;
+            }
+        }
+        return stack.isEmpty();
+    }
+}
+
 ```
