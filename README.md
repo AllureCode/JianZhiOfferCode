@@ -24,6 +24,7 @@
          * [19.顺时针打印矩阵](#19顺时针打印矩阵)
          * [20.包含min函数的栈](#20包含min函数的栈)
          * [21.栈的压入弹出序列](#21栈的压入弹出序列)
+         * [22.从上往下打印二叉树](#22从上往下打印二叉树)
 ### 1.二位数组中的查找
 ```java
 /**
@@ -1340,6 +1341,51 @@ public class Topic21 {
             }
         }
         return stack.isEmpty();
+    }
+}
+
+```
+### 22.从上下打印二叉树
+```java
+import java.util.ArrayList;
+
+/**
+ * @program: Arithmetic
+ * @description:
+ * @author: wang_sir
+ * @create: 2020-10-22 16:05
+ *
+ *
+ * 从上往下打印出二叉树的每个节点，同层节点从左至右打印。
+ **/
+public class Topic22 {
+    ArrayList<Integer> arrayList = new ArrayList<>();
+    public  ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
+        /**判断根节点是否为空*/
+        if (root==null){
+            return arrayList;
+        }
+        /**添加根节点进集合*/
+        arrayList.add(root.val);
+        bfs(root);
+        return arrayList;
+    }
+    /**
+     * 定义bfs方法 递归搜索左右子树
+     * @param root
+     */
+    public void bfs(TreeNode root){
+        if (root==null){
+            return;
+        }
+        if (root.left!=null){
+            arrayList.add(root.left.val);
+        }
+        if (root.right!=null){
+            arrayList.add(root.right.val);
+        }
+        bfs(root.left);
+        bfs(root.right);
     }
 }
 
