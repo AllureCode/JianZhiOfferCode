@@ -1345,7 +1345,7 @@ public class Topic21 {
 }
 
 ```
-### 22.从上下打印二叉树
+### 22.从上往下打印二叉树
 ```java
 import java.util.ArrayList;
 
